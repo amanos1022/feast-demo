@@ -1,0 +1,21 @@
+# values/seaweedfs.yaml
+
+master:
+  replicas: 1
+
+volume:
+  replicas: 1
+
+filer:
+  replicas: 1
+
+s3:
+  enabled: true
+
+  credentials:
+    admin:
+      accessKey: minio
+      secretKey: minio12345
+
+  createBuckets:
+    - name: feast

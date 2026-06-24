@@ -1,0 +1,64 @@
+# Kafka Connect cluster with the S3 sink connector plugin
+apiVersion: kafka.strimzi.io/v1
+kind: KafkaConnect
+metadata:
+  name: s3-sink
+  namespace: data
+  annotations:
+    strimzi.io/use-connector-resources: 'true'
+spec:
+  version: 4.2.0
+  replicas: 1
+  bootstrapServers: music-kafka-bootstrap:9092
+  groupId: s3-sink
+  offsetStorageTopic: connect-offsets
+  configStorageTopic: connect-configs
+  statusStorageTopic: connect-status
+  config:
+    offset.storage.replication.factor: 1
+    config.storage.replication.factor: 1
+    status.storage.replication.factor: 1
+    key.converter: org.apache.kafka.connect.storage.StringConverter
+    value.converter: org.apache.kafka.connect.json.JsonConverter
+    value.converter.schemas.enable: false
+  build:
+    output:
+      type: docker
+      image: localhost:5000/kafka-connect-s3:latest
+    plugins:
+      - name: kafka-connect-s3
+        artifacts:
+          - type: zip
+            url: https://github.com/Aiven-Open/cloud-storage-connectors-for-apache-kafka/releases/download/v2.15.0/s3-connector-for-apache-kafka-2.15.0.zip
+---
+# S3 sink connector: raw play events -> S3 parquet
+apiVersion: kafka.strimzi.io/v1
+kind: KafkaConnector
+metadata:
+  name: plays-s3-sink
+  namespace: data
+  labels:
+    strimzi.io/cluster: s3-sink
+spec:
+  class: io.aiven.kafka.connect.s3.AivenKafkaConnectS3SinkConnector
+  tasksMax: 1
+  config:
+    topics: plays
+    # S3 / MinIO connection
+    aws.s3.bucket.name: feast
+    aws.s3.prefix: raw/plays/
+    aws.s3.endpoint: http://seaweedfs-s3.data:8333
+    aws.access.key.id: minio
+    aws.secret.access.key: minio12345
+    aws.s3.region: us-east-1
+    # Output format
+    format.output.type: parquet
+    format.output.fields: value
+    # Partitioning: hourly files
+    file.compression.type: none
+    file.name.timestamp.timezone: UTC
+    file.name.template: '{{topic}}/dt={{timestamp:value:yyyy-MM-dd}}/{{timestamp:value:HH}}-{{partition}}-{{start_offset}}.parquet'
+    # Flush every 10k records or 5 minutes, whichever comes first
+    file.max.records: 10000
+    flush.size: 10000
+    rotate.interval.ms: 10000

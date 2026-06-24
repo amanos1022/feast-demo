@@ -1,0 +1,44 @@
+<!DOCTYPE module PUBLIC
+    "-//Checkstyle//DTD Checkstyle Configuration 1.3//EN"
+    "https://checkstyle.org/dtds/configuration_1_3.dtd">
+
+<module name="Checker">
+  <property name="severity" value="warning"/>
+
+  <module name="TreeWalker">
+    <!-- Naming -->
+    <module name="TypeName"/>
+    <module name="MethodName"/>
+    <module name="LocalVariableName"/>
+    <module name="MemberName"/>
+    <module name="ParameterName"/>
+    <module name="ConstantName"/>
+    <module name="PackageName"/>
+
+    <!-- Imports -->
+    <module name="AvoidStarImport"/>
+    <module name="UnusedImports"/>
+    <module name="RedundantImport"/>
+
+    <!-- Code quality -->
+    <module name="EqualsHashCode"/>
+    <module name="SimplifyBooleanExpression"/>
+    <module name="SimplifyBooleanReturn"/>
+    <module name="NeedBraces"/>
+    <module name="OneStatementPerLine"/>
+    <module name="MultipleVariableDeclarations"/>
+    <module name="MissingSwitchDefault"/>
+    <module name="FallThrough"/>
+    <module name="EmptyBlock"/>
+
+    <!-- Whitespace -->
+    <module name="WhitespaceAround">
+      <property name="allowEmptyConstructors" value="true"/>
+      <property name="allowEmptyMethods" value="true"/>
+    </module>
+    <module name="GenericWhitespace"/>
+  </module>
+
+  <module name="FileLength"/>
+  <module name="NewlineAtEndOfFile"/>
+</module>

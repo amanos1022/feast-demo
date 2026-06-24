@@ -1,0 +1,41 @@
+# Gradle
+java/build/
+java/**/build/
+java/.gradle/
+java/**/.gradle/
+
+# Java
+*.class
+*.jar
+
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+.venv/
+venv/
+
+# ONNX model artifacts
+*.onnx
+
+# Terraform
+terraform/.terraform/
+terraform/terraform.tfstate
+terraform/terraform.tfstate.backup
+terraform/*.tfplan
+
+# Kubernetes
+terraform/kubeconfig
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.project
+.classpath
+.settings/
+.claude
+.direnv
+
+# OS
+.DS_Store

@@ -1,0 +1,17 @@
+[project]
+name = "feast-features"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "feast[redis,postgres,duckdb]",
+    "protobuf>=5.28,<7",
+    "xgboost",
+    "onnxmltools",
+    "grpcio",
+    "grpcio-health-checking",
+    "grpcio-reflection",
+    "shared>=0.2.0",
+]
+
+[tool.uv.sources]
+shared = { path = "../shared" }

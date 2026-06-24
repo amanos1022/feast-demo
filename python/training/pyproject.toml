@@ -1,0 +1,18 @@
+[project]
+name = "training"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "pandas",
+    "numpy",
+    "s3fs",
+    "pyarrow",
+    "feast[redis,postgres,duckdb]",
+    "xgboost",
+    "onnxmltools",
+    "psycopg[binary]",
+    "shared>=0.2.0",
+]
+
+[tool.uv.sources]
+shared = { path = "../shared" }

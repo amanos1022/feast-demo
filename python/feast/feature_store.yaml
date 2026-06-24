@@ -1,0 +1,21 @@
+project: music
+provider: local
+
+registry:
+  registry_type: sql
+  path: "postgresql+psycopg://${PG_USER}:${PG_PASS}@${PG_HOST}:${PG_PORT}/${PG_DB}?sslmode=disable"
+
+online_store:
+  type: redis
+  connection_string: "${REDIS_HOST}:${REDIS_PORT}"
+
+offline_store:
+  type: postgres
+  host: ${PG_HOST}
+  port: ${PG_PORT}
+  database: ${PG_DB}
+  user: ${PG_USER}
+  password: ${PG_PASS}
+  sslmode: disable
+
+entity_key_serialization_version: 3
