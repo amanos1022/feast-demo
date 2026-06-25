@@ -69,9 +69,15 @@ public class TrackRealTimeJob {
             new EmitWindow() // labels, runs once per window - hour->minute - on already produced result
             )
         .map(
-            new FeastPushFunction( // chat says this is wrong should include flinkEnv.execute("track-realtime-job");
+            new FeastPushFunction(
                 SharedConfig
                     .FEAST_PUSH)); // writes. push to feast which writes to the online store.
+
+    try {
+      flinkEnv.execute("track-realtime-job");
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
   }
 
   private Long parseTimestamp(String json) {

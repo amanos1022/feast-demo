@@ -1,4 +1,3 @@
-from fsspec.spec import conf
 import pandas as pd, numpy as np, s3fs, uuid
 from datetime import datetime, timedelta, timezone
 from shared.config import config
